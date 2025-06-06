@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 // Copyright (C) 2021-2022 Samuel Holland <samuel@sholland.org>
 
 #include <dt-bindings/clock/sun6i-rtc.h>
@@ -79,6 +79,36 @@
 			};
 
 			/omit-if-no-ref/
+			i2c2_pins: i2c2-pins {
+				pins = "PD20", "PD21";
+				function = "i2c2";
+			};
+
+			/omit-if-no-ref/
+			i2c3_pins: i2c3-pins {
+				pins = "PG10", "PG11";
+				function = "i2c3";
+			};
+
+			/omit-if-no-ref/
+			i2s1_pins: i2s1-pins {
+				pins = "PG12", "PG13";
+				function = "i2s1";
+			};
+
+			/omit-if-no-ref/
+			i2s1_din_pins: i2s1-din-pins {
+				pins = "PG14";
+				function = "i2s1_din";
+			};
+
+			/omit-if-no-ref/
+			i2s1_dout_pins: i2s1-dout-pins {
+				pins = "PG15";
+				function = "i2s1_dout";
+			};
+
+			/omit-if-no-ref/
 			lcd_rgb666_pins: lcd-rgb666-pins {
 				pins = "PD0", "PD1", "PD2", "PD3", "PD4", "PD5",
 				       "PD6", "PD7", "PD8", "PD9", "PD10", "PD11",
@@ -124,6 +154,18 @@
 			spi0_pins: spi0-pins {
 				pins = "PC2", "PC3", "PC4", "PC5";
 				function = "spi0";
+			};
+
+			/omit-if-no-ref/
+			spi1_pins: spi1-pins {
+				pins = "PD10", "PD11", "PD12", "PD13";
+				function = "spi1";
+			};
+
+			/omit-if-no-ref/
+			spi1_hold_wp_pins: spi1-hold-wp-pins {
+				pins = "PD14", "PD15";
+				function = "spi1";
 			};
 
 			/omit-if-no-ref/
@@ -396,6 +438,17 @@
 			ranges;
 			#address-cells = <1>;
 			#size-cells = <1>;
+
+			regulators@3000150 {
+				compatible = "allwinner,sun20i-d1-system-ldos";
+				reg = <0x3000150 0x4>;
+
+				reg_ldoa: ldoa {
+				};
+
+				reg_ldob: ldob {
+				};
+			};
 		};
 
 		dma: dma-controller@3002000 {
