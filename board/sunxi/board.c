@@ -774,9 +774,22 @@ static void setup_environment(const void *fdt)
 		return;
 
 	for (i = 0; i < 4; i++) {
+		const char *alias;
+		int nodeoffset;
+		int len;
+		const fdt32_t *prop;
+
 		sprintf(ethaddr, "ethernet%d", i);
-		if (!fdt_get_alias(fdt, ethaddr))
+		alias = fdt_get_alias(fdt, ethaddr);
+		if (!alias)
 			continue;
+
+		nodeoffset = fdt_path_offset(fdt, alias);
+		if (nodeoffset >= 0) {
+			prop = fdt_getprop(fdt, nodeoffset, "nvmem-cells", &len);
+			if (prop && len > 0)
+				continue;
+		}
 
 		if (i == 0)
 			strcpy(ethaddr, "ethaddr");
