@@ -1,0 +1,3 @@
+
+mmc bootpart enable 1 1 /dev/mmcblk1
+mmc bootbus set single_backward x1 x4 /dev/mmcblk1
