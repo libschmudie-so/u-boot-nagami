@@ -40,6 +40,14 @@
 		regulator-max-microvolt = <880000>;
 		vin-supply = <&reg_vcc3v3>;
 	};
+
+	/* Reset of ESP32 */
+	wifi_pwrseq: wifi-pwrseq {
+		comptatible = "mmc-pwrseq-simple";
+		reset-gpios = <&pio 6 9 GPIO_ACTIVE_LOW>; /* PG9 */
+		post-power-on-delay-ms = <1000>;
+		power-off-deflay-us = <200>;
+	};
 };
 
 &cpu0 {
@@ -122,6 +130,7 @@
 	vmmc-supply = <&reg_vcc3v3>;
 	bus-width = <4>;
 	non-removable;
+	mmc-pwrseq = <&wifi_pwrseq>;
 	status = "okay";
 };
 
@@ -212,7 +221,7 @@
 &spi1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	pinctrl-0 = <&spi1_pins>, <&spi1_hold_wp_pins>;
+	pinctrl-0 = <&spi1_pins>, <&spi1_hold_pin>, <&spi1_wp_pin>;
 	pinctrl-names = "default";
 	cs-gpios = <0>;
 	status = "disabled";
