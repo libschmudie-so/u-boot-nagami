@@ -43,10 +43,10 @@
 
 	/* Reset of ESP32 */
 	wifi_pwrseq: wifi-pwrseq {
-		comptatible = "mmc-pwrseq-simple";
+		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&pio 6 9 GPIO_ACTIVE_LOW>; /* PG9 */
-		post-power-on-delay-ms = <1000>;
-		power-off-deflay-us = <200>;
+		post-power-on-delay-ms = <1500>;
+		power-off-delay-us = <200>;
 	};
 };
 

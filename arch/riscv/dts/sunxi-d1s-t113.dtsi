@@ -163,8 +163,14 @@
 			};
 
 			/omit-if-no-ref/
-			spi1_hold_wp_pins: spi1-hold-wp-pins {
-				pins = "PD14", "PD15";
+			spi1_hold_pin: spi1-hold-pin {
+				pins = "PD14";
+				function = "spi1";
+			};
+
+			/omit-if-no-ref/
+			spi1_wp_pin: spi1-wp-pin {
+				pins = "PD15";
 				function = "spi1";
 			};
 

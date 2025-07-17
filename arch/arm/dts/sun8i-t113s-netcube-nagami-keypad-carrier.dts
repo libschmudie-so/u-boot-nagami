@@ -73,10 +73,6 @@
 	};
 };
 
-&ehci0 {
-	status = "okay";
-};
-
 &i2c2 {
 	status = "okay";
 
@@ -89,10 +85,6 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 	};
-};
-
-&ohci0 {
-	status = "okay";
 };
 
 &pio {
