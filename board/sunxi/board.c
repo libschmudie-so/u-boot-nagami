@@ -340,12 +340,12 @@ static void mmc_pinmux_setup(int sdc)
 
 	switch (sdc) {
 	case 0:
-//		/* SDC0: PF0-PF5 */
-//		for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
-//			sunxi_gpio_set_cfgpin(pin, SUNXI_GPF_SDC0);
-//			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-//			sunxi_gpio_set_drv(pin, 2);
-//		}
+		/* SDC0: PF0-PF5 */
+		for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
+			sunxi_gpio_set_cfgpin(pin, SUNXI_GPF_SDC0);
+			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
+			sunxi_gpio_set_drv(pin, 2);
+		}
 		break;
 
 	case 1:
@@ -878,11 +878,6 @@ int board_late_init(void)
 	sunxi_gpio_set_cfgpin(SUNXI_GPG(10), SUN8I_GPG_TWI3);
 	sunxi_gpio_set_cfgpin(SUNXI_GPG(11), SUN8I_GPG_TWI3);
 #endif
-
-	sunxi_gpio_set_cfgpin(SUNXI_GPF(0), SUN8I_GPF_JTAG);
-	sunxi_gpio_set_cfgpin(SUNXI_GPF(1), SUN8I_GPF_JTAG);
-	sunxi_gpio_set_cfgpin(SUNXI_GPF(3), SUN8I_GPF_JTAG);
-	sunxi_gpio_set_cfgpin(SUNXI_GPF(5), SUN8I_GPF_JTAG);
 
 #ifdef CONFIG_MACH_SUN8I_R528
 	int i;
