@@ -110,16 +110,6 @@ void i2c_init_board(void)
 #endif
 #endif
 
-//#ifdef CONFIG_I2C3_ENABLE
-#if defined(CONFIG_MACH_SUN8I_R528)
-// Should be done here, but for some reason it gets overwritten later.
-// Doing it in board_late_init for now as it seems to work there :P
-//	sunxi_gpio_set_cfgpin(SUNXI_GPG(10), SUN8I_GPG_TWI3);
-//	sunxi_gpio_set_cfgpin(SUNXI_GPG(11), SUN8I_GPG_TWI3);
-	clock_twi_onoff(3, 1);
-#endif
-//#endif
-
 #ifdef CONFIG_R_I2C_ENABLE
 #ifdef CONFIG_MACH_SUN50I
 	clock_twi_onoff(5, 1);
@@ -871,12 +861,6 @@ int board_late_init(void)
 {
 #ifdef CONFIG_USB_ETHER
 	usb_ether_init();
-#endif
-
-#if defined(CONFIG_MACH_SUN8I_R528)
-	// Enable the pinmux for I2C3 on PG10/PG11. See note in i2c_init as to why it's down here
-	sunxi_gpio_set_cfgpin(SUNXI_GPG(10), SUN8I_GPG_TWI3);
-	sunxi_gpio_set_cfgpin(SUNXI_GPG(11), SUN8I_GPG_TWI3);
 #endif
 
 #ifdef CONFIG_MACH_SUN8I_R528
