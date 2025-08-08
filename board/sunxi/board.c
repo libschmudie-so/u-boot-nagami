@@ -51,6 +51,7 @@
 #include <sy8106a.h>
 #include <asm/setup.h>
 #include <status_led.h>
+#include <sunxi_spc.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -212,6 +213,7 @@ int board_init(void)
 
 		debug("Setting CNTFRQ\n");
 
+
 		/*
 		 * CNTFRQ is a secure register, so we will crash if we try to
 		 * write this from the non-secure world (read is OK, though).
@@ -338,12 +340,12 @@ static void mmc_pinmux_setup(int sdc)
 
 	switch (sdc) {
 	case 0:
-		/* SDC0: PF0-PF5 */
-		for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
-			sunxi_gpio_set_cfgpin(pin, SUNXI_GPF_SDC0);
-			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-			sunxi_gpio_set_drv(pin, 2);
-		}
+//		/* SDC0: PF0-PF5 */
+//		for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
+//			sunxi_gpio_set_cfgpin(pin, SUNXI_GPF_SDC0);
+//			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
+//			sunxi_gpio_set_drv(pin, 2);
+//		}
 		break;
 
 	case 1:
@@ -875,6 +877,24 @@ int board_late_init(void)
 	// Enable the pinmux for I2C3 on PG10/PG11. See note in i2c_init as to why it's down here
 	sunxi_gpio_set_cfgpin(SUNXI_GPG(10), SUN8I_GPG_TWI3);
 	sunxi_gpio_set_cfgpin(SUNXI_GPG(11), SUN8I_GPG_TWI3);
+#endif
+
+	sunxi_gpio_set_cfgpin(SUNXI_GPF(0), SUN8I_GPF_JTAG);
+	sunxi_gpio_set_cfgpin(SUNXI_GPF(1), SUN8I_GPF_JTAG);
+	sunxi_gpio_set_cfgpin(SUNXI_GPF(3), SUN8I_GPF_JTAG);
+	sunxi_gpio_set_cfgpin(SUNXI_GPF(5), SUN8I_GPF_JTAG);
+
+#ifdef CONFIG_MACH_SUN8I_R528
+	int i;
+	/* SPC setup: set all devices to non-secure */
+	for (i = 0; i < SUNXI_SPC_NUM_PORTS; i++)
+		writel(0xffffffff, SUNXI_SPC_DECPORT_SET_REG(i));
+	/* set MBUS clocks, bus clocks (AXI/AHB/APB) and PLLs to non-secure */
+	writel(0x7, SUNXI_CCM_SEC_SWITCH_REG);
+	/* Set R_PRCM bus clocks to non-secure */
+	writel(0x1, SUNXI_PRCM_SEC_SWITCH_REG);
+	/* Set all DMA channels (16 max.) to non-secure */
+	writel(0xffff, SUNXI_DMA_BASE + DMA_SEC_REG);
 #endif
 
 	return 0;

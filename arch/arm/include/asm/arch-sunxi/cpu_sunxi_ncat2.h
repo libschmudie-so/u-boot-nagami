@@ -7,6 +7,7 @@
 #ifndef _SUNXI_CPU_SUNXI_NCAT2_H
 #define _SUNXI_CPU_SUNXI_NCAT2_H
 
+#define SUNXI_SPC_BASE			0x02000800
 #define SUNXI_CCM_BASE			0x02001000
 #define SUNXI_TIMER_BASE		0x02050000
 
@@ -16,6 +17,7 @@
 #define SUNXI_TWI3_BASE			0x02502C00
 
 #define SUNXI_SRAMC_BASE		0x03000000
+#define SUNXI_DMA_BASE			0x03002000
 /* SID address space starts at 0x03006000, but e-fuse is at offset 0x200 */
 #define SUNXI_SIDC_BASE			0x03006000
 #define SUNXI_SID_BASE			0x03006200

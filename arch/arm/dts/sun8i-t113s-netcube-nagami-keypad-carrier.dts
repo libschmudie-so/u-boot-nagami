@@ -14,76 +14,47 @@
 	compatible = "netcube,nagami-keypad-carrier", "netcube,nagami",
 				 "allwinner,sun8i-t113s";
 
-	keypad: keypad {
-		compatible = "gpio-matrix-keypad";
-		debounce-delay-ms = <5>;
-		col-scan-delay-us = <2>;
-
-		row-gpios = <&mcp23008 0 0
-					 &mcp23008 1 0
-					 &mcp23008 2 0
-					 &mcp23008 3 0>;
-
-		col-gpios = <&mcp23008 6 0
-					 &mcp23008 5 0
-					 &mcp23008 4 0>;
-
-		linux,keymap = <0x00000201
-						0x00010202
-						0x00020203
-						0x01000204
-						0x01010205
-						0x01020206
-						0x02000207
-						0x02010208
-						0x02020209
-						0x0300020A
-						0x03010200
-						0x0302020B>;
-	};
-
 	leds {
 		compatible = "gpio-leds";
 
-		led-heartbeat {
-			gpios = <&mcp23008 7 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger = "heartbeat";
-			color = <LED_COLOR_ID_YELLOW>;
-			function = LED_FUNCTION_HEARTBEAT;
-		};
-
 		led_status_red: led-status-red {
-			gpios = <&pio 3 16 GPIO_ACTIVE_HIGH>;  /* PD16 */
+			gpios = <&pio 3 22 GPIO_ACTIVE_HIGH>;  /* PD22 */
+			linux,default-trigger = "heartbeat";
 			color = <LED_COLOR_ID_RED>;
 			function = LED_FUNCTION_STATUS;
 		};
 
 		led_status_green: led-status-green {
-			gpios = <&pio 3 22 GPIO_ACTIVE_HIGH>;  /* PD22 */
+			gpios = <&pio 3 16 GPIO_ACTIVE_HIGH>;  /* PD16 */
+			linux,default-trigger = "heartbeat";
 			color = <LED_COLOR_ID_GREEN>;
 			function = LED_FUNCTION_STATUS;
 		};
-	};
-
-	multi-led {
-		compatible = "leds-group-multicolor";
-		color = <LED_COLOR_ID_MULTI>;
-		function = LED_FUNCTION_STATUS;
-		leds = <&led_status_red &led_status_green>;
 	};
 };
 
 &i2c2 {
 	status = "okay";
 
-	mcp23008: gpio@20 {
-		compatible = "microchip,mcp23008";
-		gpio-controller;
-		#gpio-cells = <2>;
-		reg = <0x20>;
-		interrupts-extended = <&pio 5 6 IRQ_TYPE_LEVEL_LOW>;  /* PF6 */
-		interrupt-controller;
-		#interrupt-cells = <2>;
+	tca8418: keypad@34 {
+		compatible = "ti,tca8418";
+		reg = <0x34>;
+		interrupts-extended = <&pio 5 6 IRQ_TYPE_EDGE_FALLING>;  /* PF6 */
+		linux,keymap = <MATRIX_KEY(0x02, 0x03, KEY_NUMERIC_1)
+						MATRIX_KEY(0x01, 0x03, KEY_NUMERIC_2)
+						MATRIX_KEY(0x00, 0x03, KEY_NUMERIC_3)
+						MATRIX_KEY(0x02, 0x02, KEY_NUMERIC_4)
+						MATRIX_KEY(0x01, 0x02, KEY_NUMERIC_5)
+						MATRIX_KEY(0x00, 0x02, KEY_NUMERIC_6)
+						MATRIX_KEY(0x02, 0x01, KEY_NUMERIC_7)
+						MATRIX_KEY(0x01, 0x01, KEY_NUMERIC_8)
+						MATRIX_KEY(0x00, 0x01, KEY_NUMERIC_9)
+						MATRIX_KEY(0x02, 0x00, KEY_NUMERIC_STAR)
+						MATRIX_KEY(0x01, 0x00, KEY_NUMERIC_0)
+						MATRIX_KEY(0x00, 0x00, KEY_NUMERIC_POUND)
+		>;
+		keypad,num-rows = <3>;
+		keypad,num-columns = <4>;
 	};
 };
 

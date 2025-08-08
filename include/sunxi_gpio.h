@@ -133,6 +133,7 @@ enum sunxi_gpio_number {
 #define SUNXI_GPF_SDC0		2
 #define SUNXI_GPF_UART0		4
 #define SUN8I_GPF_UART0		3
+#define SUN8I_GPF_JTAG		3
 
 #define SUN4I_GPG_SDC1		4
 #define SUN5I_GPG_SDC1		2
